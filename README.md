@@ -1,5 +1,5 @@
 # SQLjs
-SQL interface for JS language
+SQL-like interface for JavaScript
 
 ## Usage
 

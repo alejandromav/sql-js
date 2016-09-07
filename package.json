@@ -1,7 +1,7 @@
 {
   "name": "sqljs",
   "version": "0.0.1",
-  "description": "SQL interface for JavaScript",
+  "description": "SQL-like interface for JavaScript",
   "main": "index.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir .",
