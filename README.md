@@ -1,3 +1,4 @@
+[![Version](https://img.shields.io/badge/Version-0.0.1-blue.svg)](https://img.shields.io/badge/Version-0.0.1-blue.svg)
 [![Build Status](https://travis-ci.org/alex030293/sqljs.svg?branch=master)](https://travis-ci.org/alex030293/sqljs)
 
 # SQLjs
