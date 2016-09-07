@@ -1,9 +1,6 @@
 # SQLjs
 SQL interface for JS language
 
-## Dependencies
-`[sudo] npm i -g mocha`
-
 ## Usage
 
 ```javascript
