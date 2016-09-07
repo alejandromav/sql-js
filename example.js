@@ -1,12 +1,3 @@
-# SQLjs
-SQL interface for JS language
-
-## Dependencies
-`[sudo] npm i -g mocha`
-
-## Usage
-
-```javascript
 import { query } from 'sqljs';
 
 const persons = [
@@ -24,4 +15,4 @@ const name = (person) => person.name;
 const profession = (person) => person.profession;
 
 let resultSet = query().select().from(persons).where(isJedi).groupBy(profession, name).execute();
-```
+console.log(resultSet);
