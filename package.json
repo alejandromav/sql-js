@@ -1,0 +1,24 @@
+{
+  "name": "sqljs",
+  "version": "0.0.1",
+  "description": "SQL interface for JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex030293/sqljs.git"
+  },
+  "keywords": [
+    "sql",
+    "js",
+    "interface"
+  ],
+  "author": "alex030293",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alex030293/sqljs/issues"
+  },
+  "homepage": "https://github.com/alex030293/sqljs#readme"
+}
