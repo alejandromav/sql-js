@@ -13,15 +13,18 @@ const empire = [
     { name: 'Lando',       profession: 'Smuggler',  age: 50 }
 ];
 
-const nameAndFather = (join) => { return { name: join[0].name, father: join[1].name } };
 const fatherJoin = (join) => join[0].father === join[1].name;
 const isJedi = (join) => join[0].profession === 'Jedi';
+const age = (join) => join[0].age;
+const older20 = (group) => group[0] > 20;
 
 let resultSet = query()
-    .select(nameAndFather)
+    .select()
     .from(rebels, empire)
     .where(fatherJoin)
     .where(isJedi)
+    .groupBy(age)
+    .having(older20)
     .execute();
 
 
