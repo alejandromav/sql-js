@@ -1,10 +1,43 @@
 const query = (status= { data: [],}) => {
-    const where = (fns, data) => {
-        let res = [];
-        fns.forEach(f => res = res.concat(data.filter(f).reverse()));
-        return res;
+
+    //   INNER JOIN
+    const innerJoin = (a, b, f) => {
+        let m = a.length, n = b.length, c = [];
+        for (var i = 0; i < m; i++) {
+            const x = a[i];
+            for (var j = 0; j < n; j++) { // cartesian product - all combinations
+                let y;
+                if(f){
+                    y = (f([x, b[j]])) ? [x,b[j]] : undefined;
+                }else{
+                    y =  [x,b[j]];
+                }
+                if (y) c.push(y);         // if a row is returned add it to the table
+            }
+        }
+        return c;
     }
 
+    const where = (fns, data) => {
+        //  APPLY MULTIPLE WHERE CLASES WITH 'OR'
+        const whereOR = (fns, data) => {
+            let res = [];
+            fns.forEach(f => res = res.concat(data.filter(f).reverse()));
+            return res;
+        }
+
+        //  APPLY MULTIPLE WHERE CLASES WITH 'OR'
+        const whereAND = (fns, data) => {
+            let res = [];
+            fns.forEach(f => res = data.filter(f));
+            status.whereLogic = 'OR';
+            return res;
+        }
+
+        return (status.whereLogic === 'AND') ? whereAND(fns,data) : whereOR(fns, data);
+    }
+
+    //  GROUP DATASET BY ATTR
     const groupBy = (fns, data) => {
         //  GROUP FUNCTION WHEN DATASET INST GROUPED
         const group = (f, data) => {
@@ -56,14 +89,14 @@ const query = (status= { data: [],}) => {
             status.select = f;
             return query(status);
         },
-        from: (data) => {
+        from: (...data) => {
             if(status.hasOwnProperty('from')) throw new Error('Duplicate FROM');
             status.from = data;
             status.data = data;
             return query(status);
         },
         where: (...f) => {
-            status.where = f;
+            status.where = (status.where) ? status.where.concat(f) : f;
             return query(status);
         },
         groupBy: (...f) => {
@@ -81,6 +114,13 @@ const query = (status= { data: [],}) => {
             return query(status);
         },
         execute: () => {
+            if(status.data.length === 2){
+                status.data = (status.where) ? innerJoin(status.data[0], status.data[1], status.where[0]) : innerJoin(status.data[0], status.data[1]);
+                status.whereLogic = 'AND';
+            }else{
+                status.data = status.data[0] || [];
+            }
+
             if(status.where)    status.data = where(status.where, status.data);
             if(status.groupBy)  status.data = groupBy(status.groupBy, status.data);
             if(status.having)   status.data = status.data.filter(status.having);

@@ -9,14 +9,52 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var query = function query() {
     var status = arguments.length <= 0 || arguments[0] === undefined ? { data: [] } : arguments[0];
 
-    var where = function where(fns, data) {
-        var res = [];
-        fns.forEach(function (f) {
-            return res = res.concat(data.filter(f).reverse());
-        });
-        return res;
+
+    //   INNER JOIN
+    var innerJoin = function innerJoin(a, b, f) {
+        var m = a.length,
+            n = b.length,
+            c = [];
+        for (var i = 0; i < m; i++) {
+            var x = a[i];
+            for (var j = 0; j < n; j++) {
+                // cartesian product - all combinations
+                var y = void 0;
+                if (f) {
+                    y = f([x, b[j]]) ? [x, b[j]] : undefined;
+                } else {
+                    y = [x, b[j]];
+                }
+                if (y) c.push(y); // if a row is returned add it to the table
+            }
+        }
+        return c;
     };
 
+    var where = function where(fns, data) {
+        //  APPLY MULTIPLE WHERE CLASES WITH 'OR'
+        var whereOR = function whereOR(fns, data) {
+            var res = [];
+            fns.forEach(function (f) {
+                return res = res.concat(data.filter(f).reverse());
+            });
+            return res;
+        };
+
+        //  APPLY MULTIPLE WHERE CLASES WITH 'OR'
+        var whereAND = function whereAND(fns, data) {
+            var res = [];
+            fns.forEach(function (f) {
+                return res = data.filter(f);
+            });
+            status.whereLogic = 'OR';
+            return res;
+        };
+
+        return status.whereLogic === 'AND' ? whereAND(fns, data) : whereOR(fns, data);
+    };
+
+    //  GROUP DATASET BY ATTR
     var groupBy = function groupBy(fns, data) {
         //  GROUP FUNCTION WHEN DATASET INST GROUPED
         var group = function group(f, data) {
@@ -70,23 +108,27 @@ var query = function query() {
             status.select = f;
             return query(status);
         },
-        from: function from(data) {
+        from: function from() {
+            for (var _len = arguments.length, data = Array(_len), _key = 0; _key < _len; _key++) {
+                data[_key] = arguments[_key];
+            }
+
             if (status.hasOwnProperty('from')) throw new Error('Duplicate FROM');
             status.from = data;
             status.data = data;
             return query(status);
         },
         where: function where() {
-            for (var _len = arguments.length, f = Array(_len), _key = 0; _key < _len; _key++) {
-                f[_key] = arguments[_key];
+            for (var _len2 = arguments.length, f = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                f[_key2] = arguments[_key2];
             }
 
-            status.where = f;
+            status.where = status.where ? status.where.concat(f) : f;
             return query(status);
         },
         groupBy: function groupBy() {
-            for (var _len2 = arguments.length, f = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                f[_key2] = arguments[_key2];
+            for (var _len3 = arguments.length, f = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                f[_key3] = arguments[_key3];
             }
 
             if (status.hasOwnProperty('groupBy')) throw new Error('Duplicate GROUPBY');
@@ -103,6 +145,13 @@ var query = function query() {
             return query(status);
         },
         execute: function execute() {
+            if (status.data.length === 2) {
+                status.data = status.where ? innerJoin(status.data[0], status.data[1], status.where[0]) : innerJoin(status.data[0], status.data[1]);
+                status.whereLogic = 'AND';
+            } else {
+                status.data = status.data[0] || [];
+            }
+
             if (status.where) status.data = where(status.where, status.data);
             if (status.groupBy) status.data = groupBy(status.groupBy, status.data);
             if (status.having) status.data = status.data.filter(status.having);

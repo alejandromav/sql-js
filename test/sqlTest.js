@@ -249,7 +249,7 @@ describe("SQL tests", function() {
 
 
     });
-/*
+
     it('join tests', function() {
       var teachers = [
         {
@@ -285,7 +285,6 @@ describe("SQL tests", function() {
       //SELECT studentName, teacherName FROM teachers, students WHERE teachers.teacherId = students.tutor
       Test.assertSimilar(query().select(student).from(teachers, students).where(teacherJoin).execute(), [{"studentName":"Michael","teacherName":"Peter"},{"studentName":"Rose","teacherName":"Anna"}]);
 
-
       var numbers1 = [1, 2];
       var numbers2 = [4, 5];
 
@@ -299,7 +298,7 @@ describe("SQL tests", function() {
       Test.assertSimilar(query().select(student).from(teachers, students).where(teacherJoin).where(tutor1).execute(), [{"studentName":"Michael","teacherName":"Peter"}]);
 
     });
-*/
+
     it('Duplication exception tests', function() {
       function checkError(fn, duplicate) {
         try {
