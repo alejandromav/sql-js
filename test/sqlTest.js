@@ -131,7 +131,6 @@ describe("SQL tests", function() {
       Test.assertSimilar(query().select(professionCount).from(persons).groupBy(profession).orderBy(naturalCompare).execute(), [["politician",1],["scientific",3],["teacher",3]]);
     });
 
-/*
     it('Numbers tests', function() {
 
       function isEven(number) {
@@ -250,7 +249,7 @@ describe("SQL tests", function() {
 
 
     });
-
+/*
     it('join tests', function() {
       var teachers = [
         {
@@ -300,7 +299,7 @@ describe("SQL tests", function() {
       Test.assertSimilar(query().select(student).from(teachers, students).where(teacherJoin).where(tutor1).execute(), [{"studentName":"Michael","teacherName":"Peter"}]);
 
     });
-
+*/
     it('Duplication exception tests', function() {
       function checkError(fn, duplicate) {
         try {
@@ -324,5 +323,5 @@ describe("SQL tests", function() {
       checkError(function() { query().select().groupBy(id).from([]).groupBy(id).execute(); }, 'GROUPBY');
 
     });
-    */
+
 });
