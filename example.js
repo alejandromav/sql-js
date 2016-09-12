@@ -1,4 +1,4 @@
-import query from 'sqljs';
+import query from 'sql-js';
 
 const rebels = [
     { name: 'Han',    profession: 'Smuggler', age: 30 },
