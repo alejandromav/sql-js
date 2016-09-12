@@ -1,6 +1,6 @@
 {
-  "name": "sqljs",
-  "version": "0.0.1",
+  "name": "sql-js",
+  "version": "0.1.0",
   "description": "SQL-like interface for JavaScript",
   "main": "index.js",
   "scripts": {

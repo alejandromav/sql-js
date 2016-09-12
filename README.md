@@ -9,7 +9,7 @@ SQL-like interface for JavaScript
 ## Trivial
 
 ```javascript
-import { query } from 'sqljs';
+import { query } from 'sql-js';
 
 const characters = [
     { name: 'Han',    profession: 'Smuggler', age: 30 },
@@ -31,7 +31,7 @@ let resultSet = query()
 ## The easy way
 
 ```javascript
-import { query } from 'sqljs';
+import { query } from 'sql-js';
 
 const characters = [
     { name: 'Han',    profession: 'Smuggler', age: 30 },
@@ -57,7 +57,7 @@ let resultSet = query()
 ## Level Up
 
 ```javascript
-import { query } from 'sqljs';
+import { query } from 'sql-js';
 
 const rebels = [
     { name: 'Han',    profession: 'Smuggler', age: 30 },
